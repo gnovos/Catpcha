@@ -1,0 +1,20 @@
+//
+// Prefix header for all source files of the project
+//
+
+#ifdef __OBJC__
+
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    
+    #import "Sparrow.h" 
+    #import "LLMedia.h"
+    #import "SPOverlayView.h"
+    #import "SPResizeEvent.h"
+
+    #import <QuartzCore/QuartzCore.h>
+    #import <GameKit/GameKit.h>
+
+    #import "LLog.h"
+
+#endif
