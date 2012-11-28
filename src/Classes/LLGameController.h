@@ -3,7 +3,6 @@
 
 @interface LLGameController : SPStage
 {
-  @private
     LLGame *mGame;
 }
 

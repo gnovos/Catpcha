@@ -2,7 +2,6 @@
 
 @interface LLViewController : UIViewController
 {
-  @private
     SPView *mSparrowView;
 }
 

@@ -1,6 +1,5 @@
 @interface LLGame : SPSprite
 {
-  @private 
     float mGameWidth;
     float mGameHeight;
 }

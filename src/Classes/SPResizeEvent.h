@@ -4,7 +4,6 @@
 
 @interface SPResizeEvent : SPEvent
 {
-  @private
     float mWidth;
     float mHeight;
     double mAnimationTime;
