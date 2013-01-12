@@ -1,12 +1,5 @@
-@interface LLGame : SPSprite
-{
-    float mGameWidth;
-    float mGameHeight;
-}
+#import "SPStage.h"
 
-- (id)initWithWidth:(float)width height:(float)height;
-
-@property (nonatomic, assign) float gameWidth;
-@property (nonatomic, assign) float gameHeight;
+@interface LLGame : SPStage
 
 @end

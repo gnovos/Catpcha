@@ -1,5 +1,5 @@
 #import "LLViewController.h"
-#import "LLGameController.h"
+#import "LLGame.h"
 
 @implementation LLViewController
 
@@ -39,6 +39,7 @@
 - (void)loadView
 {
     CGRect screenBounds = [UIScreen mainScreen].bounds;
+    NSLog(@"screen %@", NSStringFromCGRect(screenBounds));
     self.view = [[SPOverlayView alloc] initWithFrame:screenBounds];
 }
 
@@ -73,15 +74,6 @@
              [supportedOrientations containsObject:@"UIInterfaceOrientationPortraitUpsideDown"]) ||
             (interfaceOrientation == UIInterfaceOrientationLandscapeRight &&
              [supportedOrientations containsObject:@"UIInterfaceOrientationLandscapeRight"]));
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-                                         duration:(NSTimeInterval)duration
-{
-    // rotate Sparrow content
-    LLGameController *gameController = (LLGameController *)mSparrowView.stage;
-    [gameController rotateToInterfaceOrientation:interfaceOrientation
-                                   animationTime:duration];
 }
 
 #pragma mark - notifications

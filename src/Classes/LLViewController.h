@@ -1,4 +1,4 @@
-#import "LLGameController.h"
+#import "LLGame.h"
 
 @interface LLViewController : UIViewController
 {

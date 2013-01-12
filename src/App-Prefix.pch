@@ -15,6 +15,9 @@
     #import <QuartzCore/QuartzCore.h>
     #import <GameKit/GameKit.h>
 
+    #import "LLConst.h"
+    #import "LLMacro.h"
+
     #import "LLog.h"
 
 #endif

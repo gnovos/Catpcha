@@ -7,7 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C041E341666BD71008E0B33 /* LLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C041E331666BD71008E0B33 /* LLModel.m */; };
+		0C041E371666BD87008E0B33 /* LLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C041E361666BD87008E0B33 /* LLevel.m */; };
+		0C6BE4CB1690E65C0022DC00 /* LLColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BE4CA1690E65C0022DC00 /* LLColor.m */; };
+		0C6F740E1697BB5800A468E1 /* LLBasket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F740D1697BB5800A468E1 /* LLBasket.m */; };
+		0C6F74111697BB6800A468E1 /* LLKitten.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F74101697BB6800A468E1 /* LLKitten.m */; };
 		0CB17176166699B800EF86BF /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB17175166699B800EF86BF /* GameKit.framework */; };
+		0CE08687167BDC01006340A9 /* LLDynamics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE08686167BDC01006340A9 /* LLDynamics.m */; };
+		0CE0868D167C17A9006340A9 /* LLCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE0868C167C17A9006340A9 /* LLCurve.m */; };
+		0CE08690167C17E6006340A9 /* LLVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE0868F167C17E6006340A9 /* LLVector.m */; };
 		1D3623260D0F684500981E51 /* LLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* LLAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -31,7 +39,6 @@
 		DE4A3D7A10FFB08200FDA492 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3D7910FFB08200FDA492 /* OpenGLES.framework */; };
 		DE4A3D7F10FFB08B00FDA492 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3D7E10FFB08B00FDA492 /* QuartzCore.framework */; };
 		DE4A3DB910FFB0FE00FDA492 /* libSparrow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3DB010FFB0DB00FDA492 /* libSparrow.a */; };
-		DE4A3DE510FFB2AF00FDA492 /* LLGame.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4A3DE410FFB2AF00FDA492 /* LLGame.m */; };
 		DE4F80C714E1481C00655D44 /* LLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4F80C614E1481B00655D44 /* LLViewController.m */; };
 		DE4F80D614E153E600655D44 /* LLMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4F80D514E153E600655D44 /* LLMedia.m */; };
 		DE4F80E814E1541400655D44 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = DE4F80DB14E1541400655D44 /* sound.caf */; };
@@ -40,7 +47,7 @@
 		DE4F80ED14E1541400655D44 /* atlas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE4F80E314E1541400655D44 /* atlas@2x.png */; };
 		DE4F80EE14E1541400655D44 /* atlas@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = DE4F80E414E1541400655D44 /* atlas@2x.xml */; };
 		DE5C4E6E138ED109004892CA /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE5C4E6D138ED109004892CA /* libz.dylib */; };
-		DE88295114ECF12000773036 /* LLGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88295014ECF11F00773036 /* LLGameController.m */; };
+		DE88295114ECF12000773036 /* LLGame.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88295014ECF11F00773036 /* LLGame.m */; };
 		DECF454814F2E527006A4287 /* SPOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DECF454714F2E527006A4287 /* SPOverlayView.m */; };
 /* End PBXBuildFile section */
 
@@ -69,8 +76,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C041E321666BD71008E0B33 /* LLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLModel.h; sourceTree = "<group>"; };
+		0C041E331666BD71008E0B33 /* LLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLModel.m; sourceTree = "<group>"; };
+		0C041E351666BD87008E0B33 /* LLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLevel.h; sourceTree = "<group>"; };
+		0C041E361666BD87008E0B33 /* LLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLevel.m; sourceTree = "<group>"; };
+		0C6BE4C91690E65C0022DC00 /* LLColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLColor.h; sourceTree = "<group>"; };
+		0C6BE4CA1690E65C0022DC00 /* LLColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLColor.m; sourceTree = "<group>"; };
+		0C6F740C1697BB5800A468E1 /* LLBasket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLBasket.h; sourceTree = "<group>"; };
+		0C6F740D1697BB5800A468E1 /* LLBasket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLBasket.m; sourceTree = "<group>"; };
+		0C6F740F1697BB6800A468E1 /* LLKitten.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLKitten.h; sourceTree = "<group>"; };
+		0C6F74101697BB6800A468E1 /* LLKitten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLKitten.m; sourceTree = "<group>"; };
 		0CB171741666996100EF86BF /* LLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLog.h; sourceTree = "<group>"; };
 		0CB17175166699B800EF86BF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		0CE08685167BDC01006340A9 /* LLDynamics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDynamics.h; sourceTree = "<group>"; };
+		0CE08686167BDC01006340A9 /* LLDynamics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDynamics.m; sourceTree = "<group>"; };
+		0CE0868B167C17A9006340A9 /* LLCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLCurve.h; sourceTree = "<group>"; };
+		0CE0868C167C17A9006340A9 /* LLCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLCurve.m; sourceTree = "<group>"; };
+		0CE0868E167C17E6006340A9 /* LLVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLVector.h; sourceTree = "<group>"; };
+		0CE0868F167C17E6006340A9 /* LLVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLVector.m; sourceTree = "<group>"; };
+		0CF073B21679256D0029EE57 /* LLConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLConst.h; sourceTree = "<group>"; };
+		0CF073B31679257E0029EE57 /* LLMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMacro.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* LLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* LLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLAppDelegate.m; sourceTree = "<group>"; };
@@ -99,8 +124,6 @@
 		DE4A3D7910FFB08200FDA492 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		DE4A3D7E10FFB08B00FDA492 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DE4A3DA210FFB0D400FDA492 /* Sparrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Sparrow.xcodeproj; sourceTree = SPARROW_SRC; };
-		DE4A3DE310FFB2AF00FDA492 /* LLGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGame.h; sourceTree = "<group>"; };
-		DE4A3DE410FFB2AF00FDA492 /* LLGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGame.m; sourceTree = "<group>"; };
 		DE4F80C514E1481B00655D44 /* LLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewController.h; sourceTree = "<group>"; };
 		DE4F80C614E1481B00655D44 /* LLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewController.m; sourceTree = "<group>"; };
 		DE4F80D414E153E600655D44 /* LLMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMedia.h; sourceTree = "<group>"; };
@@ -111,8 +134,8 @@
 		DE4F80E314E1541400655D44 /* atlas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atlas@2x.png"; sourceTree = "<group>"; };
 		DE4F80E414E1541400655D44 /* atlas@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "atlas@2x.xml"; sourceTree = "<group>"; };
 		DE5C4E6D138ED109004892CA /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		DE88294F14ECF11F00773036 /* LLGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGameController.h; sourceTree = "<group>"; };
-		DE88295014ECF11F00773036 /* LLGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGameController.m; sourceTree = "<group>"; };
+		DE88294F14ECF11F00773036 /* LLGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGame.h; sourceTree = "<group>"; };
+		DE88295014ECF11F00773036 /* LLGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGame.m; sourceTree = "<group>"; };
 		DECF454614F2E527006A4287 /* SPOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPOverlayView.h; sourceTree = "<group>"; };
 		DECF454714F2E527006A4287 /* SPOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPOverlayView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +165,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0C041E3116669F3F008E0B33 /* Models */,
 				DECF454314F2E45A006A4287 /* Support */,
 				DE4F80D714E153EA00655D44 /* Game */,
 				1D3623240D0F684500981E51 /* LLAppDelegate.h */,
@@ -150,6 +174,55 @@
 				DE4F80C614E1481B00655D44 /* LLViewController.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		0C041E3116669F3F008E0B33 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0C6F740B1697BB3C00A468E1 /* Objects */,
+				0CE0868A167C1785006340A9 /* Dynamics */,
+				0C041E321666BD71008E0B33 /* LLModel.h */,
+				0C041E331666BD71008E0B33 /* LLModel.m */,
+				0C041E351666BD87008E0B33 /* LLevel.h */,
+				0C041E361666BD87008E0B33 /* LLevel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		0C6F740B1697BB3C00A468E1 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				0C6F740C1697BB5800A468E1 /* LLBasket.h */,
+				0C6F740D1697BB5800A468E1 /* LLBasket.m */,
+				0C6F740F1697BB6800A468E1 /* LLKitten.h */,
+				0C6F74101697BB6800A468E1 /* LLKitten.m */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		0CE0868A167C1785006340A9 /* Dynamics */ = {
+			isa = PBXGroup;
+			children = (
+				0CE08685167BDC01006340A9 /* LLDynamics.h */,
+				0CE08686167BDC01006340A9 /* LLDynamics.m */,
+				0CE0868B167C17A9006340A9 /* LLCurve.h */,
+				0CE0868C167C17A9006340A9 /* LLCurve.m */,
+				0CE0868E167C17E6006340A9 /* LLVector.h */,
+				0CE0868F167C17E6006340A9 /* LLVector.m */,
+				0C6BE4C91690E65C0022DC00 /* LLColor.h */,
+				0C6BE4CA1690E65C0022DC00 /* LLColor.m */,
+			);
+			name = Dynamics;
+			sourceTree = "<group>";
+		};
+		0CF073AF167924590029EE57 /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+				0CB171741666996100EF86BF /* LLog.h */,
+				0CF073B21679256D0029EE57 /* LLConst.h */,
+				0CF073B31679257E0029EE57 /* LLMacro.h */,
+			);
+			name = Macros;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -176,7 +249,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0CB171741666996100EF86BF /* LLog.h */,
+				0CF073AF167924590029EE57 /* Macros */,
 				32CA4F630368D1EE00C91783 /* App-Prefix.pch */,
 				8D1107310486CEB800E47090 /* App-Info.plist */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -239,10 +312,8 @@
 		DE4F80D714E153EA00655D44 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				DE88294F14ECF11F00773036 /* LLGameController.h */,
-				DE88295014ECF11F00773036 /* LLGameController.m */,
-				DE4A3DE310FFB2AF00FDA492 /* LLGame.h */,
-				DE4A3DE410FFB2AF00FDA492 /* LLGame.m */,
+				DE88294F14ECF11F00773036 /* LLGame.h */,
+				DE88295014ECF11F00773036 /* LLGame.m */,
 				DE4F80D414E153E600655D44 /* LLMedia.h */,
 				DE4F80D514E153E600655D44 /* LLMedia.m */,
 			);
@@ -403,12 +474,19 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* LLAppDelegate.m in Sources */,
-				DE4A3DE510FFB2AF00FDA492 /* LLGame.m in Sources */,
 				DE4F80C714E1481C00655D44 /* LLViewController.m in Sources */,
 				DE4F80D614E153E600655D44 /* LLMedia.m in Sources */,
-				DE88295114ECF12000773036 /* LLGameController.m in Sources */,
+				DE88295114ECF12000773036 /* LLGame.m in Sources */,
 				DECF454814F2E527006A4287 /* SPOverlayView.m in Sources */,
 				DE1FBDFD14F831A300E86642 /* SPResizeEvent.m in Sources */,
+				0C041E341666BD71008E0B33 /* LLModel.m in Sources */,
+				0C041E371666BD87008E0B33 /* LLevel.m in Sources */,
+				0CE08687167BDC01006340A9 /* LLDynamics.m in Sources */,
+				0CE0868D167C17A9006340A9 /* LLCurve.m in Sources */,
+				0CE08690167C17E6006340A9 /* LLVector.m in Sources */,
+				0C6BE4CB1690E65C0022DC00 /* LLColor.m in Sources */,
+				0C6F740E1697BB5800A468E1 /* LLBasket.m in Sources */,
+				0C6F74111697BB6800A468E1 /* LLKitten.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
