@@ -24,9 +24,9 @@
 - (void) setup {
     
     SPQuad* bg = [[SPQuad alloc] initWithWidth:self.size.width height:self.size.height];
-    [bg setColor:0x992233 ofVertex:0];
-    [bg setColor:0x99FF33 ofVertex:1];
-    [bg setColor:0x9922FF ofVertex:2];
+    [bg setColor:0x112233 ofVertex:0];
+    [bg setColor:0x22FF33 ofVertex:1];
+    [bg setColor:0x3322FF ofVertex:2];
     [bg setColor:0xFF2233 ofVertex:3];
     
     [self addChild:bg];
@@ -48,30 +48,91 @@
     [self addChild:levelName];
     
     NSArray* kittens = @[
-      [[LLKitten alloc] init:CGRectMake(30, 100, 50, 50)],
-      [[LLKitten alloc] init:CGRectMake(100, 300, 50, 50)],
+      [[LLKitten alloc] init:CGRectMake(100, 350, 35, 35)],
       [[LLKitten alloc] init:CGRectMake(200, 300, 10, 10)],
-      [[LLKitten alloc] init:CGRectMake(250, 300, 25, 25)]
+      [[LLKitten alloc] init:CGRectMake(240, 300, 25, 25)],
+      [[LLKitten alloc] init:CGRectMake(200, 360, 20, 20)],
+      [[LLKitten alloc] init:CGRectMake(120, 300, 15, 15)],
+      [[LLKitten alloc] init:CGRectMake(250, 300, 30, 30)]
     ];
     
     [kittens enumerateObjectsUsingBlock:^(LLKitten* kitten, NSUInteger idx, BOOL *stop) {
         [self addChild:kitten];
-        kitten.target = CGPointMake(kitten.position.x, idx % 2 == 0 ? 100 : 500);
-        kitten.dynamics.position.y.acceleration = 20.0f * (idx + 1);
         kitten.constraints = (CGRect) { CGPointZero, self.size };
+    }];        
+}
+
+- (NSArray*) sight:(CGLine)sight {
+    NSMutableArray* seen = [[NSMutableArray alloc] init];
+    
+    [self.models enumerateObjectsUsingBlock:^(LLModel* obj, NSUInteger idx, BOOL *stop) {
+        
     }];
     
-    [((LLKitten*)[kittens lastObject]) setTarget:CGPointMake(250, -10)];
-        
+    return seen;
 }
 
 - (void) onTick:(SPEnterFrameEvent*)event {
     [super onTick:event];
-    [self.children enumerateObjectsUsingBlock:^(id child, NSUInteger idx, BOOL *stop) {
-        if ([child isKindOfClass:[LLModel class]]) {
-            [child onTick:event];
+    
+    NSArray* models = self.models;
+    
+    for (int i = 0; i < models.count; i++) {
+        LLModel* model = models[i];
+        CGPoint last = model.position;
+        [model onTick:event];
+        for (int j = i + 1; j < models.count; j++) {
+            CGRect test = ((LLModel*)models[j]).bounds;
+            CGRect bounds = model.bounds;
+            if (CGRectIntersectsRect(bounds, test)) {
+                CGPoint position = model.position;
+                
+                CGFloat mleft = bounds.origin.x;
+                CGFloat mright = bounds.origin.x + bounds.size.width;
+                CGFloat mtop = bounds.origin.y;
+                CGFloat mbottom = bounds.origin.y + bounds.size.height;
+                
+                CGFloat tleft = test.origin.x;
+                CGFloat tright = test.origin.x + test.size.width;
+                CGFloat ttop = test.origin.y;
+                CGFloat tbottom = test.origin.y + test.size.height;
+                
+                if (mright < tright && mright > tleft) {
+                    position.x -= mright - tleft;
+                } else if (mleft > tleft && mleft < tright) {
+                    position.x += tright - mleft;
+                }
+                
+                if (mbottom < tbottom && mbottom > ttop) {
+                    position.y -= mbottom - ttop;
+                } else if (mtop > ttop && mtop < tbottom) {
+                    position.y += tbottom - mtop;
+                }
+
+                model.position = position;
+            }
         }
-    }];    
+    }
+    
+    
+    static double last = 0;
+    if ([[NSDate date] timeIntervalSince1970] - last > 1) {
+        last = [[NSDate date] timeIntervalSince1970];
+        [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if ([obj isKindOfClass:[LLKitten class]]) {
+                if (LLRandPercent < 0.35) {
+                    LLKitten* kitten = (LLKitten*)obj;
+                    CGFloat tx = LLRand(self.size.width);
+                    CGFloat ty = LLRand(self.size.height);
+                    CGPoint target = CGPointMake(tx, ty);
+                    kitten.dynamics.angle.acceleration = 180;
+                    kitten.dynamics.position.x.acceleration = LLRand(70);
+                    kitten.dynamics.position.y.acceleration = kitten.dynamics.position.x.acceleration;
+                    kitten.target = target;
+                }
+            }
+        }];
+    }
 }
 
 - (void)onTouch:(SPTouchEvent*)event
@@ -83,9 +144,10 @@
         
         NSString* phase;
         switch (touch.phase) {
-            case SPTouchPhaseBegan:
+            case SPTouchPhaseBegan: {
                 phase = @"BEGIN";
                 break;
+            }
             case SPTouchPhaseMoved:
                 phase = @"MOVE";
                 self.position = CGPointMake(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));

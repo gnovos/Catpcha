@@ -28,5 +28,6 @@
 - (void) onTick:(SPEnterFrameEvent*)event;
 
 - (NSArray*) children;
+- (NSArray*) models;
 
 @end

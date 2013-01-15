@@ -45,9 +45,9 @@ otherButtonTitles:nil]; \
 #define dlogint(i)   dlog(#i @"=%d", i);
 #define dlogfloat(f) dlog(#f @"=%f", f);
 
-#define dlogrect(r)  dlog(#r @"={{%f,%f},{%f,%f}}", r.origin.x, r.origin.y, r.size.width, r.size.height);
-#define dlogsize(s)  dlog(#s @"={%f,%f}", s.width, s.height);
-#define dlogpoint(p) dlog(#p @"={%f,%f}", p.x, p.y);
+#define dlogrect(r)  dlog(#r @"={{x:%f,y:%f},{w:%f,h:%f}}", r.origin.x, r.origin.y, r.size.width, r.size.height);
+#define dlogsize(s)  dlog(#s @"={w:%f,h:%f}", s.width, s.height);
+#define dlogpoint(p) dlog(#p @"={x:%f,y:%f}", p.x, p.y);
 
 #define dlogmoment(m) dlog(#m @"={%f v:%f a:%f}", m.value, m.velocity, m.acceleration);
 #define dlogvector(v) dlog(#v @"={%f,%f}", v.x.value, v.y.value);

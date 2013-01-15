@@ -45,6 +45,14 @@
     [self direct];
 }
 
+- (void) setAdjust:(CGFloat)value {
+    _value = value;    
+}
+
+- (CGFloat) adjust {
+    return _value;
+}
+
 - (void) setValue:(CGFloat)value {
     _value = value;
     _initial = value;
