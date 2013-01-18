@@ -17,7 +17,7 @@
     if (self = [super init]) {
         _angle = [[LLCurve alloc] init];
         _position = [[LLVector alloc] init];
-        _scale = [[LLVector alloc] init:CGPointMake(1.0f, 1.0f)];
+        _scale = [[LLVector alloc] init:pt(1.0f, 1.0f)];
         _color = [[LLColor alloc] init];
     }
     return self;

@@ -6,6 +6,8 @@
 //
 //
 
+#define LLDEFAULT_VISON 200.0f
+
 #import "LLModel.h"
 
 @implementation LLModel 
@@ -14,7 +16,8 @@
     if (self = [super init]) {
         _dynamics = [[LLDynamics alloc] init];
         _size = bounds.size;
-        _center = CGPointMake(self.size.width / 2.0f, self.size.height / 2.0f);
+        _center = pt(self.size.width / 2.0f, self.size.height / 2.0f);
+        _vision = LLDEFAULT_VISON;
                 
         self.pivotX = self.center.x;
         self.pivotY = self.center.y;
@@ -31,8 +34,30 @@
 - (void) setup {
 }
 
+- (void) reclaim:(SPEvent*)event {
+    SPTween* tween = (SPTween*)event.target;    
+    [self removeChild:tween.target];
+}
+
+- (void) tween:(NSString*)property value:(CGFloat)value duration:(CGFloat)time {
+    [self tween:self property:property value:value duration:time delay:0.0f];
+}
+
+- (void) tween:(id)target property:(NSString*)property value:(CGFloat)value duration:(CGFloat)time {
+    [self tween:target property:property value:value duration:time delay:0.0f];
+}
+
+
+- (void) tween:(id)target property:(NSString*)property value:(CGFloat)value duration:(CGFloat)time delay:(CGFloat)delay {
+    SPTween *tween = [SPTween tweenWithTarget:target time:time transition:SP_TRANSITION_EASE_IN_OUT];
+    [tween setDelay:delay];
+    [tween animateProperty:property targetValue:value];
+    [tween addEventListener:@selector(reclaim:) atObject:self forType:SP_EVENT_TYPE_TWEEN_COMPLETED];
+    [self.stage.juggler addObject:tween];
+}
+
 - (CGPoint) position {
-    return CGPointMake(self.dynamics.position.x.value, self.dynamics.position.y.value);
+    return pt(self.dynamics.position.x.value, self.dynamics.position.y.value);
 }
 
 - (void) setPosition:(CGPoint)position {
@@ -40,7 +65,7 @@
 }
 
 - (CGPoint) target {
-    return CGPointMake(self.dynamics.position.x.target, self.dynamics.position.y.target);
+    return pt(self.dynamics.position.x.target, self.dynamics.position.y.target);
 }
 
 - (void) setTarget:(CGPoint)position {
@@ -51,7 +76,11 @@
     CGPoint pos = self.position;
     pos.x -= self.pivotX;
     pos.y -= self.pivotY;
-    return (CGRect) { pos, self.size };
+    return rect(pos.x, pos.y, self.size.width, self.size.height);
+}
+
+- (CGLine) sight {
+    return CGLineCalc(self.position, self.rotation, self.vision);
 }
 
 - (void) reflect {
@@ -70,7 +99,7 @@
 
 - (void) onTick:(SPEnterFrameEvent*)event {
     if (!CGPointEqualToPoint(self.position, self.target)) {
-        CGFloat angle = LLRAD2DEG(CGPointAngle(self.position, self.target));
+        CGFloat angle = deg(CGPointAngle(self.position, self.target));
         CGFloat da = angle - self.dynamics.angle.value;
         if (ABS(da) > 180) {
             angle = angle - 360;
@@ -84,9 +113,13 @@
     
     [self.dynamics tick:event.passedTime];
     
-    self.x = self.dynamics.position.x.value;
-    self.y = self.dynamics.position.y.value;
-    self.rotation = LLDEG2RAD(self.dynamics.angle.value);
+    [self tween:@"x" value:self.dynamics.position.x.value duration:event.passedTime];
+    [self tween:@"y" value:self.dynamics.position.y.value duration:event.passedTime];
+    [self tween:@"rotation" value:rad(self.dynamics.angle.value) duration:event.passedTime];
+    
+//    self.x = self.dynamics.position.x.value;
+//    self.y = self.dynamics.position.y.value;
+//    self.rotation = rad(self.dynamics.angle.value);
     
     //xxx adjust rotation for negativeness?
     

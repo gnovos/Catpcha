@@ -4,7 +4,7 @@
 
 @implementation LLAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     mWindow = [[UIWindow alloc] initWithFrame:screenBounds];

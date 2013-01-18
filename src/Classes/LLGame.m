@@ -10,12 +10,12 @@
     if ((self = [super initWithWidth:width height:height])) {
         [self setup];
         
-        CGRect lbounds = CGRectMake(0, 0, width * 1.0f, height * 1.0f);
+        CGRect lbounds = rect(0, 0, width * 1.0f, height * 1.0f);
         dlogrect(lbounds);
                 
         LLevel* level = [[LLevel alloc] initLevel:1 withBounds:lbounds];
         dlogobj(level);
-        level.position = CGPointMake(width / 2.0f, height / 2.0f);
+        level.position = pt(width / 2.0f, height / 2.0f);
         
         [self addChild:level];        
     }

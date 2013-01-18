@@ -6,11 +6,28 @@
 //
 //
 
+/*
+ 
+  -45      0        45
+ (-1,-1)  (0,-1)   (1,-1)
+ 
+  -90               90
+ (-1, 0)  (0, 0)   (1, 0)
+ 
+  -135     180      135
+ (-1, 1)  (0, 1)   (1, 1)
+ 
+*/
+
+
 #ifndef Catpcha_LLMacro_h
 #define Catpcha_LLMacro_h
 
-#define LLDEG2RAD(deg) (deg * M_PI / 180.0f)
-#define LLRAD2DEG(rad) (rad * 180.0f / M_PI)
+#define pt(x, y) CGPointMake(x, y)
+#define rect(x, y, width, height) CGRectMake(x, y, width, height)
+
+#define rad(deg) (deg * M_PI / 180.0f)
+#define deg(rad) (rad * 180.0f / M_PI)
 
 #define M_TAU (2.0f * M_PI)
 
@@ -24,12 +41,23 @@ static inline CGFloat CGPointAngle(CGPoint a, CGPoint b) {
     
     CGFloat slope = dx / dy;
     
-    return -atanf(slope) + ((a.y < b.y) ? (a.x > b.x ? -LLDEG2RAD(180) : LLDEG2RAD(180)) : 0);
+    return -atanf(slope) + ((a.y < b.y) ? (a.x > b.x ? -rad(180) : rad(180)) : 0);
 }
 
 typedef struct { CGPoint from; CGPoint to; } CGLine;
 
-static inline CGLine  CGLineMake(CGPoint from, CGPoint to) { return (CGLine){from, to}; }
+static inline CGLine CGLineMake(CGPoint from, CGPoint to) { return (CGLine){from, to}; }
+#define line(from, to) CGLineMake(from, to)
+
+static inline CGLine CGLineCalc(CGPoint from, CGFloat angle, CGFloat distance) {
+    CGPoint to = pt(cosf(angle - rad(90)) * distance, sinf(angle - rad(90)) * distance);
+    to.x += from.x;
+    to.y += from.y;
+    
+    return (CGLine) { from, to };
+}
+#define linec(from, angle, length) CGLineCalc(from, angle, length)
+
 static inline CGFloat CGLineSlopeX(CGLine line) { return line.to.x - line.from.x; }
 static inline CGFloat CGLineSlopeY(CGLine line) { return line.to.y - line.from.y; }
 static inline CGFloat CGLineSlope(CGLine line) {
@@ -65,38 +93,38 @@ static inline BOOL CGLineIntersectsLine(CGLine a, CGLine b) {
 }
 
 static inline CGLine CGRectLeft(CGRect rect) {
-    return CGLineMake((CGPoint){rect.origin.x, rect.origin.y + rect.size.height},
-                      rect.origin);
+    return line(pt(rect.origin.x, rect.origin.y + rect.size.height),
+                rect.origin);
 }
 
 static inline CGLine CGRectRight(CGRect rect) {
-    return CGLineMake((CGPoint){rect.origin.x + rect.size.width, rect.origin.y},
-                      (CGPoint){rect.origin.x + rect.size.width, rect.origin.y + rect.size.height});
+    return line(pt(rect.origin.x + rect.size.width, rect.origin.y),
+                pt(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height));
 }
 
 static inline CGLine CGRectTop(CGRect rect) {
-    return CGLineMake(rect.origin, (CGPoint){rect.origin.x + rect.size.width, rect.origin.y});
+    return line(rect.origin,
+                pt(rect.origin.x + rect.size.width, rect.origin.y));
 }
 
 static inline CGLine CGRectBottom(CGRect rect) {
-    return CGLineMake((CGPoint){rect.origin.x + rect.size.width, rect.origin.y + rect.size.height},
-                      (CGPoint){rect.origin.x, rect.origin.y + rect.size.height});
+    return line(pt(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height),
+                pt(rect.origin.x, rect.origin.y + rect.size.height));
 }
 
-static inline BOOL CGLineIntersectsRect(CGLine line, CGRect rect) {
-        
+static inline BOOL CGLineIntersectsRect(CGLine line, CGRect rect) {    
     return CGLineIntersectsLine(line, CGRectTop(rect))
         || CGLineIntersectsLine(line, CGRectRight(rect))
         || CGLineIntersectsLine(line, CGRectBottom(rect))
         || CGLineIntersectsLine(line, CGRectLeft(rect))
         || CGRectContainsPoint(rect, line.from)
         || CGRectContainsPoint(rect, line.to);
+    
 }
-
 
 static inline CGFloat CGLineDistance(CGLine line) { return hypot(CGLineSlopeX(line), CGLineSlopeY(line)); };
 
-static inline CGPoint CGRectCenter(CGRect rect) { return CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect)); }
+static inline CGPoint CGRectCenter(CGRect rect) { return pt(CGRectGetMidX(rect), CGRectGetMidY(rect)); }
 
 static inline CGRect CGRectEnvelope(CGRect rect, CGPoint point) {
     
@@ -123,7 +151,7 @@ static inline CGRect CGRectEnvelope(CGRect rect, CGPoint point) {
 }
 
 
-#define CGRectGetCenter(x) CGPointMake(CGRectGetMidX(x), CGRectGetMidY(x))
+#define CGRectGetCenter(x) pt(CGRectGetMidX(x), CGRectGetMidY(x))
 
 #define LLRand(x) arc4random_uniform(x)
 #define LLRandDeg LLRand(LL360Deg)
@@ -133,7 +161,29 @@ static inline CGRect CGRectEnvelope(CGRect rect, CGPoint point) {
 #define LLRandf(f) arc4random_uniform(f * 1000000.0f) / 1000000.0f
 
 #define LLRandRange(low, high) (arc4random_uniform((high - low) * 1000000.0f) / 1000000.0f) - ((high - low) / 2.0f)
-#define LLRandPoint(rect) CGPointMake(LLRandRange(rect.origin.x, rect.size.width + rect.origin.x), LLRandRange(rect.origin.y, rect.size.height + rect.origin.y))
+#define LLRandPoint(rect) pt(LLRandRange(rect.origin.x, rect.size.width + rect.origin.x), LLRandRange(rect.origin.y, rect.size.height + rect.origin.y))
 
 
 #endif
+
+
+//        CGPoint q = obj.position;
+//
+//        CGFloat dist = p.x - q.x;
+//        CGFloat dir = cosf(rads);
+//        BOOL match = (dir < 0 && dist > 0) || (dir > 0 && dist < 0);
+//
+//        if (match) {
+//            CGFloat m = tan(rads) * dist;
+//            q.y = p.y - m;
+//            CGRect size = obj.frame;
+//            if (size.size.width < seer.frame.size.width || size.size.height < seer.frame.size.height) {
+//                size.size = seer.frame.size;
+//            }
+//
+//            CGRect view = CGRectInset(size, KWTouchFeather, KWTouchFeather);
+//            if (CGRectContainsPoint(view, q)) {
+//                [visible addObject:obj];
+//            }
+//        }
+

@@ -10,7 +10,7 @@
 #import "LLKitten.h"
 
 @implementation LLevel {
-    
+    SPQuad* background;
 }
 
 - (id) initLevel:(NSUInteger)level withBounds:(CGRect)bounds {
@@ -23,13 +23,14 @@
 
 - (void) setup {
     
-    SPQuad* bg = [[SPQuad alloc] initWithWidth:self.size.width height:self.size.height];
-    [bg setColor:0x112233 ofVertex:0];
-    [bg setColor:0x22FF33 ofVertex:1];
-    [bg setColor:0x3322FF ofVertex:2];
-    [bg setColor:0xFF2233 ofVertex:3];
+    background = [[SPQuad alloc] initWithWidth:self.size.width height:self.size.height];
+    background.alpha = 0.7f;
+    [background setColor:LLRand(0xFFFFFF) ofVertex:0];
+    [background setColor:LLRand(0xFFFFFF) ofVertex:1];
+    [background setColor:LLRand(0xFFFFFF) ofVertex:2];
+    [background setColor:LLRand(0xFFFFFF) ofVertex:3];
     
-    [self addChild:bg];
+    [self addChild:background];
     
     NSString *text = [NSString stringWithFormat:@"LEVEL %d", self.level];
     
@@ -44,32 +45,87 @@
     levelName.alpha = 0.4f;
     levelName.x = self.center.x;
     levelName.y = self.center.y;
-    levelName.rotation = SP_D2R(45);
+    levelName.rotation = rad(45);
     [self addChild:levelName];
     
     NSArray* kittens = @[
-      [[LLKitten alloc] init:CGRectMake(100, 350, 35, 35)],
-      [[LLKitten alloc] init:CGRectMake(200, 300, 10, 10)],
-      [[LLKitten alloc] init:CGRectMake(240, 300, 25, 25)],
-      [[LLKitten alloc] init:CGRectMake(200, 360, 20, 20)],
-      [[LLKitten alloc] init:CGRectMake(120, 300, 15, 15)],
-      [[LLKitten alloc] init:CGRectMake(250, 300, 30, 30)]
+      [[LLKitten alloc] init:rect(100, 350, 35, 35)],
+      [[LLKitten alloc] init:rect(200, 300, 25, 25)],
+      [[LLKitten alloc] init:rect(250, 400, 30, 30)]
     ];
     
     [kittens enumerateObjectsUsingBlock:^(LLKitten* kitten, NSUInteger idx, BOOL *stop) {
         [self addChild:kitten];
         kitten.constraints = (CGRect) { CGPointZero, self.size };
-    }];        
-}
-
-- (NSArray*) sight:(CGLine)sight {
-    NSMutableArray* seen = [[NSMutableArray alloc] init];
-    
-    [self.models enumerateObjectsUsingBlock:^(LLModel* obj, NSUInteger idx, BOOL *stop) {
-        
     }];
     
-    return seen;
+}
+
+- (void) see {
+        
+    [self.models enumerateObjectsUsingBlock:^(LLModel* obj, NSUInteger idx, BOOL *stop) {
+        CGRect view = rect(obj.x, obj.y, 2.0f, obj.vision);
+        
+        SPQuad* sight = [[SPQuad alloc] initWithWidth:view.size.width height:view.size.height];
+        sight.color = 0x5B73B3;
+        sight.alpha = 0.4f;
+        sight.pivotX = view.size.width / 2.0f;
+        sight.pivotY = view.size.height;
+        sight.rotation = obj.rotation;
+        [self addChild:sight];
+        sight.x = view.origin.x;
+        sight.y = view.origin.y;
+        [self tween:sight property:@"alpha" value:0.0f duration:0.1f delay:0.0f];
+    }];
+
+    NSArray* models = self.models;
+    [models enumerateObjectsUsingBlock:^(LLModel* seer, NSUInteger idx, BOOL *stop) {
+        CGLine sight = seer.sight;
+        [models enumerateObjectsUsingBlock:^(LLModel* target, NSUInteger idx, BOOL *stop) {
+            if (seer != target) {
+                if (CGLineIntersectsRect(sight, target.bounds)) {
+                    SPQuad* shooter = [[SPQuad alloc] initWithWidth:target.width height:target.height];
+                    shooter.color = 0xFBEC5D;
+                    shooter.alpha = 0.3f;
+                    shooter.pivotX = seer.pivotX;
+                    shooter.pivotY = seer.pivotY;
+                    shooter.rotation = seer.rotation;
+                    shooter.x = seer.x;
+                    shooter.y = seer.y;
+                    [self addChild:shooter];
+                    
+                    SPQuad* line = [[SPQuad alloc] initWithWidth:3.0f height:CGLineDistance(sight)];
+                    line.color = 0x05E9FF;
+                    line.alpha = 0.3f;
+                    line.pivotX = line.width / 2.0f;
+                    line.pivotY = line.height;
+                    line.rotation = seer.rotation;
+                    line.x = seer.x;
+                    line.y = seer.y;
+                    [self addChild:line];
+                    
+                    SPQuad* hit = [[SPQuad alloc] initWithWidth:target.width height:target.height];
+                    hit.color = 0xFF4500;
+                    hit.alpha = 0.3f;
+                    hit.pivotX = target.pivotX;
+                    hit.pivotY = target.pivotY;
+                    hit.rotation = target.rotation;
+                    hit.x = target.x;
+                    hit.y = target.y;
+                    [self addChild:hit];
+                    
+                    
+                    [self tween:shooter property:@"alpha" value:0.0f duration:2.0f];
+                    [self tween:line property:@"alpha" value:0.0f duration:3.0f];
+                    [self tween:hit property:@"alpha" value:0.0f duration:4.0f];
+                    
+                }
+            }
+            
+        }];
+        
+    }];
+        
 }
 
 - (void) onTick:(SPEnterFrameEvent*)event {
@@ -79,7 +135,6 @@
     
     for (int i = 0; i < models.count; i++) {
         LLModel* model = models[i];
-        CGPoint last = model.position;
         [model onTick:event];
         for (int j = i + 1; j < models.count; j++) {
             CGRect test = ((LLModel*)models[j]).bounds;
@@ -114,25 +169,26 @@
         }
     }
     
-    
     static double last = 0;
     if ([[NSDate date] timeIntervalSince1970] - last > 1) {
         last = [[NSDate date] timeIntervalSince1970];
-        [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if ([obj isKindOfClass:[LLKitten class]]) {
-                if (LLRandPercent < 0.35) {
-                    LLKitten* kitten = (LLKitten*)obj;
-                    CGFloat tx = LLRand(self.size.width);
-                    CGFloat ty = LLRand(self.size.height);
-                    CGPoint target = CGPointMake(tx, ty);
-                    kitten.dynamics.angle.acceleration = 180;
-                    kitten.dynamics.position.x.acceleration = LLRand(70);
-                    kitten.dynamics.position.y.acceleration = kitten.dynamics.position.x.acceleration;
-                    kitten.target = target;
-                }
+        [[self models] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (LLRandPercent < 0.35) {
+                LLKitten* kitten = (LLKitten*)obj;
+                CGFloat tx = LLRand(self.size.width);
+                CGFloat ty = LLRand(self.size.height);
+                CGPoint target = pt(tx, ty);
+                kitten.dynamics.angle.acceleration = 180;
+                kitten.dynamics.position.x.acceleration = LLRand(70);
+                kitten.dynamics.position.y.acceleration = kitten.dynamics.position.x.acceleration;
+                kitten.target = target;
             }
         }];
     }
+    
+    
+    [self see];
+    
 }
 
 - (void)onTouch:(SPTouchEvent*)event
@@ -150,7 +206,7 @@
             }
             case SPTouchPhaseMoved:
                 phase = @"MOVE";
-                self.position = CGPointMake(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));
+                self.position = pt(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));
                 break;
             case SPTouchPhaseStationary:
                 phase = @"STILL";

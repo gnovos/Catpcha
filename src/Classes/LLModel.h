@@ -19,9 +19,17 @@
 @property (nonatomic, assign, readonly) CGRect bounds;
 @property (nonatomic, assign) CGRect constraints;
 
+@property (nonatomic, assign) CGFloat vision;
+
+- (CGLine) sight;
 
 - (id) init:(CGRect)bounds;
 - (void) setup;
+
+- (void) reclaim:(SPEvent*)event;
+- (void) tween:(NSString*)property value:(CGFloat)value duration:(CGFloat)time;
+- (void) tween:(id)target property:(NSString*)property value:(CGFloat)value duration:(CGFloat)time;
+- (void) tween:(id)target property:(NSString*)property value:(CGFloat)value duration:(CGFloat)time delay:(CGFloat)delay;
 
 - (void) setTarget:(CGPoint)position;
 
