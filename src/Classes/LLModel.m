@@ -143,9 +143,14 @@
 
 - (void) tickTurn:(double)dt {
     if (!CGPointEqualToPoint(self.position, self.target)) {
-        CGFloat degrees = deg(CGPointRads(self.position, self.target));
+        CGFloat degrees =  CGPointDeg(self.position, self.target);
+        if (ABS(self.deg - degrees) > LL180Deg) {
+            //xxx check for spins
+            CGFloat offset = LL180Deg + (LL180Deg - ABS(degrees));
+            degrees = degrees < 0 ? offset : -offset;
+        }
+        
         self.heading = degrees;
-        //xxx check for spins
     }
     
     [_degrees tick:dt];
@@ -153,8 +158,15 @@
     if (self.rotation != self.rad) {
         [self tween:@"rotation" value:self.rad duration:dt];
     }
-    //xxx adjust rotation for negativeness?
-    //xxx check for spins
+    
+    while (self.deg > LL180Deg) {
+        self.deg -= LL360Deg;
+    }
+    
+    while (self.deg < -LL180Deg) {
+        self.deg += LL360Deg;
+    }
+    
 }
 
 - (void) tickGrow:(double)dt {

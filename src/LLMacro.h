@@ -42,7 +42,7 @@ static const CGFloat LL360Rad = rad(LL360Deg);
 
 #define M_TAU (2.0f * M_PI)
 
-static inline CGFloat CGPointRads(CGPoint a, CGPoint b) {
+static inline CGFloat CGPointRad(CGPoint a, CGPoint b) {
     CGFloat dx = a.x - b.x;
     CGFloat dy = a.y - b.y;
     
@@ -54,6 +54,8 @@ static inline CGFloat CGPointRads(CGPoint a, CGPoint b) {
     
     return -atanf(slope) + ((a.y < b.y) ? (a.x > b.x ? -LL180Rad : LL180Rad) : 0);
 }
+#define CGPointDeg(a, b) deg(CGPointRad(a, b))
+
 
 typedef struct { CGPoint from; CGPoint to; } CGLine;
 

@@ -182,8 +182,9 @@
     if ([[NSDate date] timeIntervalSince1970] - last > 1) {
         last = [[NSDate date] timeIntervalSince1970];
         [[self models] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            LLKitten* kitten = (LLKitten*)obj;
+            
             if (LLRandPercent < 0.35) {
-                LLKitten* kitten = (LLKitten*)obj;
                 CGFloat tx = LLRand(self.size.width);
                 CGFloat ty = LLRand(self.size.height);
                 CGPoint target = pt(tx, ty);
