@@ -203,7 +203,8 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"loc:%@ size:%@", NSStringFromCGPoint(self.position), NSStringFromCGSize(self.size)];
+    return [NSString stringWithFormat:@"[%@] loc:%@ size:%@",
+            NSStringFromClass(self.class), NSStringFromCGPoint(self.position), NSStringFromCGSize(self.size)];
 }
 
 @end
