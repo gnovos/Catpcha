@@ -20,6 +20,7 @@
     return self;
 }
 
+- (LLRGBA) color { return LLRGBAMake(_r.value, _g.value, _b.value, _a.value); }
 - (void) setColor:(LLRGBA)color {
     _r.value = color.r;
     _g.value = color.g;
@@ -27,6 +28,7 @@
     _a.value = color.a;
 }
 
+- (LLRGBA) target { return LLRGBAMake(_r.target, _g.target, _b.target, _a.target); }
 - (void) setTarget:(LLRGBA)target {
     _r.target = target.r;
     _g.target = target.g;
@@ -42,7 +44,7 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@" ->r) %@\n ->b) %@\n ->b) %@\n ->a) %@\n\n", self.r, self.g, self.b, self.a];
+    return [NSString stringWithFormat:@"\n ->r) %@\n ->b) %@\n ->b) %@\n ->a) %@\n\n", self.r, self.g, self.b, self.a];
 }
 
 

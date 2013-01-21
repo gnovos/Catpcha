@@ -2,16 +2,19 @@
 
 @implementation SPOverlayView
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-{
-    for (UIView *subview in self.subviews)
-    {
-        CGPoint innerPoint = pt(point.x - subview.frame.origin.x,
-                                         point.y - subview.frame.origin.y);
-        if ([subview pointInside:innerPoint withEvent:event]) return YES;
-    }
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     
-    return NO;
+    __block BOOL hit = NO;
+    
+    [self.subviews enumerateObjectsUsingBlock:^(UIView* view, NSUInteger idx, BOOL *stop) {
+        CGPoint innerPoint = pt(point.x - view.frame.origin.x, point.y - view.frame.origin.y);
+        if ([view pointInside:innerPoint withEvent:event]) {
+            hit = YES;
+            *stop = YES;
+        }
+    }];
+    
+    return hit;
 }
 
 @end

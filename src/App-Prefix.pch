@@ -9,8 +9,6 @@
     
     #import "Sparrow.h" 
     #import "LLMedia.h"
-    #import "SPOverlayView.h"
-    #import "SPResizeEvent.h"
 
     #import <QuartzCore/QuartzCore.h>
     #import <GameKit/GameKit.h>

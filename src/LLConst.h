@@ -10,6 +10,8 @@
 #define Catpcha_LLConst_h
 
 static const CGFloat LL0Deg   = 0.0f;
+static const CGFloat LL1Deg   = 1.0f;
+static const CGFloat LL5Deg   = 5.0f;
 static const CGFloat LL15Deg  = 15.0f;
 static const CGFloat LL23Deg  = 23.0f;
 static const CGFloat LL45Deg  = 45.0f;

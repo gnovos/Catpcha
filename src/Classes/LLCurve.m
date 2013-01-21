@@ -6,6 +6,8 @@
 //
 //
 
+#define LLTHRESHOLD 1.0f
+
 #import "LLCurve.h"
 
 @implementation LLCurve {
@@ -45,19 +47,17 @@
     [self direct];
 }
 
-- (void) setAdjust:(CGFloat)value {
-    _value = value;    
-}
-
-- (CGFloat) adjust {
-    return _value;
-}
-
 - (void) setValue:(CGFloat)value {
+    [self setValue:value reset:YES];
+}
+
+- (void) setValue:(CGFloat)value reset:(BOOL)reset {
     _value = value;
-    _initial = value;
-    _target = value;
-    _velocity = 0.0f;
+    if (reset) {
+        _initial = value;
+        _target = value;
+        _velocity = 0.0f;        
+    }
 }
 
 - (CGFloat) progress {
@@ -75,7 +75,7 @@
 }
 
 - (BOOL) limit:(CGFloat)dt {
-    return MIN(ABS(_target - _initial), ABS(_target - _value)) < MAX(1, ABS(_velocity * dt));
+    return MIN(ABS(_target - _initial), ABS(_target - _value)) < MAX(LLTHRESHOLD, ABS(_velocity * dt));
 }
 
 - (void) tick:(CGFloat)dt {

@@ -1,7 +1,6 @@
-@interface LLAppDelegate : UIResponder <UIApplicationDelegate> 
-{
-    UIWindow *mWindow;
-    UIViewController *mViewController;
-}
+@interface LLAppDelegate : UIResponder <UIApplicationDelegate>
+
+- (NSArray*) orientations;
+- (NSNotificationCenter*) notifications;
 
 @end

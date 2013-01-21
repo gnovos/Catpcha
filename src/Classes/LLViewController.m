@@ -1,91 +1,48 @@
+
 #import "LLViewController.h"
-#import "LLGame.h"
 
 @implementation LLViewController
 
-- (id)initWithSparrowView:(SPView *)sparrowView
-{
-    if ((self = [super init]))
-    {
-        mSparrowView = sparrowView;
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        
-        [nc addObserver:self selector:@selector(onApplicationDidBecomeActive:) 
-                   name:UIApplicationDidBecomeActiveNotification object:nil];
-        [nc addObserver:self selector:@selector(onApplicationWillResignActive:) 
-                   name:UIApplicationWillResignActiveNotification object:nil];
+- (id) init {
+
+    if (self = [super init]) {
+        _app = [UIApplication sharedApplication].delegate;
     }
+    
     return self;
 }
 
-- (id)init
-{
-    [NSException raise:SP_EXC_INVALID_OPERATION format:@"ViewController requires Sparrow View"];
-    return nil;
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [SPPoint purgePool];
-    [SPRectangle purgePool];
-    [SPMatrix purgePool];   
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)orientation {
+    NSArray* orientations = self.app.orientations;
     
-    [super didReceiveMemoryWarning];
+    return ((orientation == UIInterfaceOrientationPortrait && [orientations containsObject:@"UIInterfaceOrientationPortrait"])
+            || (orientation == UIInterfaceOrientationLandscapeLeft && [orientations containsObject:@"UIInterfaceOrientationLandscapeLeft"])
+            || (orientation == UIInterfaceOrientationPortraitUpsideDown && [orientations containsObject:@"UIInterfaceOrientationPortraitUpsideDown"])
+            || (orientation == UIInterfaceOrientationLandscapeRight && [orientations containsObject:@"UIInterfaceOrientationLandscapeRight"]));
 }
 
-#pragma mark - view lifecycle
-
-- (void)loadView
-{
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    NSLog(@"screen %@", NSStringFromCGRect(screenBounds));
-    self.view = [[SPOverlayView alloc] initWithFrame:screenBounds];
-}
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    NSArray *supportedOrientations =
-    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"];
+- (NSUInteger) supportedInterfaceOrientations {
+    NSArray* orientations = self.app.orientations;
     
-    NSUInteger returnOrientations;
-    if ([supportedOrientations containsObject:@"UIInterfaceOrientationPortrait"])
-        returnOrientations |= UIInterfaceOrientationMaskPortrait;
-    if ([supportedOrientations containsObject:@"UIInterfaceOrientationLandscapeLeft"])
-        returnOrientations |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([supportedOrientations containsObject:@"UIInterfaceOrientationPortraitUpsideDown"])
-        returnOrientations |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    if ([supportedOrientations containsObject:@"UIInterfaceOrientationLandscapeRight"])
-        returnOrientations |= UIInterfaceOrientationMaskLandscapeRight;
+    NSUInteger supported = 0;
+    if ([orientations containsObject:@"UIInterfaceOrientationPortrait"]) {
+        supported |= UIInterfaceOrientationMaskPortrait;
+    }
     
-    return returnOrientations;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    NSArray *supportedOrientations =
-    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"];
+    if ([orientations containsObject:@"UIInterfaceOrientationLandscapeLeft"]) {
+        supported |= UIInterfaceOrientationMaskLandscapeLeft;
+    }
     
-    return ((interfaceOrientation == UIInterfaceOrientationPortrait &&
-             [supportedOrientations containsObject:@"UIInterfaceOrientationPortrait"]) ||
-            (interfaceOrientation == UIInterfaceOrientationLandscapeLeft &&
-             [supportedOrientations containsObject:@"UIInterfaceOrientationLandscapeLeft"]) ||
-            (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown &&
-             [supportedOrientations containsObject:@"UIInterfaceOrientationPortraitUpsideDown"]) ||
-            (interfaceOrientation == UIInterfaceOrientationLandscapeRight &&
-             [supportedOrientations containsObject:@"UIInterfaceOrientationLandscapeRight"]));
+    if ([orientations containsObject:@"UIInterfaceOrientationPortraitUpsideDown"]) {
+        supported |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    }
+    
+    if ([orientations containsObject:@"UIInterfaceOrientationLandscapeRight"]) {
+        supported |= UIInterfaceOrientationMaskLandscapeRight;
+    }
+    
+    return supported;
 }
 
-#pragma mark - notifications
-
-- (void)onApplicationDidBecomeActive:(NSNotification *)notification
-{
-    [mSparrowView start];
-}
-
-- (void)onApplicationWillResignActive:(NSNotification *)notification
-{
-    [mSparrowView stop];
-}
 
 @end

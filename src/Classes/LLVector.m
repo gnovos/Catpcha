@@ -23,11 +23,13 @@
     return self;
 }
 
+- (CGPoint) position { return pt(_x.value, _y.value); }
 - (void) setPosition:(CGPoint)position {
     _x.value = position.x;
     _y.value = position.y;
 }
 
+- (CGPoint) target { return pt(_x.target, _y.target); }
 - (void) setTarget:(CGPoint)target {
     _x.target = target.x;
     _y.target = target.y;

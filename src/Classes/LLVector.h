@@ -13,11 +13,11 @@
 @property (nonatomic, strong, readonly) LLCurve* x;
 @property (nonatomic, strong, readonly) LLCurve* y;
 
+@property (nonatomic, assign) CGPoint position;
+@property (nonatomic, assign) CGPoint target;
+
 - (id) init;
 - (id) init:(CGPoint)inital;
-
-- (void) setPosition:(CGPoint)position;
-- (void) setTarget:(CGPoint)target;
 
 - (void) tick:(CGFloat)dt;
 

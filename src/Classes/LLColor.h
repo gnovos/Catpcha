@@ -15,6 +15,10 @@ typedef struct {
     CGFloat a;
 } LLRGBA;
 
+static inline LLRGBA LLRGBAMake (CGFloat r, CGFloat g, CGFloat b, CGFloat a) {
+    return (LLRGBA) { r, g, b, a };
+}
+
 @interface LLColor : NSObject
 
 @property (nonatomic, strong, readonly) LLCurve* r;
@@ -22,8 +26,8 @@ typedef struct {
 @property (nonatomic, strong, readonly) LLCurve* b;
 @property (nonatomic, strong, readonly) LLCurve* a;
 
-- (void) setColor:(LLRGBA)color;
-- (void) setTarget:(LLRGBA)target;
+@property (nonatomic, assign) LLRGBA color;
+@property (nonatomic, assign) LLRGBA target;
 
 - (void) tick:(CGFloat)dt;
 

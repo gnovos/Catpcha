@@ -12,8 +12,7 @@
 @property (nonatomic, assign) CGFloat acceleration;
 @property (nonatomic, assign) CGFloat target;
 
-- (void) setAdjust:(CGFloat)value;
-- (CGFloat) adjust;
+- (void) setValue:(CGFloat)value reset:(BOOL)reset;
 
 - (id) init;
 - (id) init:(CGFloat)initial;

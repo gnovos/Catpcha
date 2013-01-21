@@ -1,34 +1,31 @@
 #import "LLAppDelegate.h"
-#import "LLViewController.h"
-#import "LLVector.h"
+#import "LLGameViewController.h"
 
-@implementation LLAppDelegate
+@implementation LLAppDelegate {
+    UIWindow* window;
+    LLGameViewController* root;
+}
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    mWindow = [[UIWindow alloc] initWithFrame:screenBounds];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary*)options {
+    window = [[UIWindow alloc] initWithFrame:self.bounds];
     
-    [SPStage setSupportHighResolutions:YES];
+    root = [[LLGameViewController alloc] init];
     
-    SPView *sparrowView = [[SPView alloc] initWithFrame:screenBounds];
-    sparrowView.multipleTouchEnabled = YES; 
-    sparrowView.frameRate = 30;            // possible fps: 60, 30, 20, 15, 12, 10, etc.
-    [mWindow addSubview:sparrowView];
-    
-    LLGame *gameController = [[LLGame alloc] init];
-    sparrowView.stage = gameController;
-    
-    mViewController = [[LLViewController alloc] initWithSparrowView:sparrowView];
-    
-    if ([mWindow respondsToSelector:@selector(setRootViewController:)])
-        [mWindow setRootViewController:mViewController];
-    else
-        [mWindow addSubview:mViewController.view];
+    if ([window respondsToSelector:@selector(setRootViewController:)]) {
+        [window setRootViewController:root];
+    } else {
+        [window addSubview:root.view];
+    }
 
-    [mWindow makeKeyAndVisible];
+    [window makeKeyAndVisible];
     
     return YES;
 }
+
+- (NSNotificationCenter*) notifications { return [NSNotificationCenter defaultCenter]; }
+
+- (CGRect) bounds { return [UIScreen mainScreen].bounds; }
+
+- (NSArray*) orientations { return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"]; }
 
 @end

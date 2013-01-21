@@ -13,10 +13,10 @@
     SPQuad* background;
 }
 
-- (id) initLevel:(NSUInteger)level withBounds:(CGRect)bounds {
+- (id) initLevel:(NSUInteger)level withFrame:(CGRect)frame {
     _level = level;
-    if (self = [super init:bounds]) {
-        [self addEventListener:@selector(onTouch:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
+    if (self = [super init:frame]) {
+        //[self addEventListener:@selector(onTouch:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
     }
     return self;
 }
@@ -45,12 +45,11 @@
     levelName.alpha = 0.4f;
     levelName.x = self.center.x;
     levelName.y = self.center.y;
-    levelName.rotation = rad(45);
+    levelName.rotation = LL45Rad;
     [self addChild:levelName];
     
     NSArray* kittens = @[
       [[LLKitten alloc] init:rect(100, 350, 35, 35)],
-      [[LLKitten alloc] init:rect(200, 300, 25, 25)],
       [[LLKitten alloc] init:rect(250, 400, 30, 30)]
     ];
     
@@ -61,67 +60,77 @@
     
 }
 
+- (SPQuad*) quad:(CGRect)rect rotation:(CGFloat)radians pivot:(CGPoint)pivot color:(uint)color alpha:(CGFloat)alpha{
+    SPQuad* quad = [[SPQuad alloc] initWithWidth:rect.size.width height:rect.size.height];
+    quad.pivotX = pivot.x;
+    quad.pivotY = pivot.y;
+    quad.x = rect.origin.x;
+    quad.y = rect.origin.y;
+    quad.color = color;
+    quad.alpha = alpha;
+    quad.rotation = radians;
+    return quad;
+}
+
 - (void) see {
         
-    [self.models enumerateObjectsUsingBlock:^(LLModel* obj, NSUInteger idx, BOOL *stop) {
-        CGRect view = rect(obj.x, obj.y, 2.0f, obj.vision);
-        
-        SPQuad* sight = [[SPQuad alloc] initWithWidth:view.size.width height:view.size.height];
-        sight.color = 0x5B73B3;
-        sight.alpha = 0.4f;
-        sight.pivotX = view.size.width / 2.0f;
-        sight.pivotY = view.size.height;
-        sight.rotation = obj.rotation;
-        [self addChild:sight];
-        sight.x = view.origin.x;
-        sight.y = view.origin.y;
-        [self tween:sight property:@"alpha" value:0.0f duration:0.1f delay:0.0f];
-    }];
-
     NSArray* models = self.models;
     [models enumerateObjectsUsingBlock:^(LLModel* seer, NSUInteger idx, BOOL *stop) {
-        CGLine sight = seer.sight;
         [models enumerateObjectsUsingBlock:^(LLModel* target, NSUInteger idx, BOOL *stop) {
             if (seer != target) {
-                if (CGLineIntersectsRect(sight, target.bounds)) {
-                    SPQuad* shooter = [[SPQuad alloc] initWithWidth:target.width height:target.height];
-                    shooter.color = 0xFBEC5D;
-                    shooter.alpha = 0.3f;
-                    shooter.pivotX = seer.pivotX;
-                    shooter.pivotY = seer.pivotY;
-                    shooter.rotation = seer.rotation;
-                    shooter.x = seer.x;
-                    shooter.y = seer.y;
-                    [self addChild:shooter];
+                for (int i = -LL23Deg; i < LL23Deg; i += LL5Deg) {
+                    CGLine sight = [seer sight:rad(i)];
                     
-                    SPQuad* line = [[SPQuad alloc] initWithWidth:3.0f height:CGLineDistance(sight)];
-                    line.color = 0x05E9FF;
-                    line.alpha = 0.3f;
+                    SPQuad* line = [[SPQuad alloc] initWithWidth:1.0f height:CGLineDistance(sight)];
+                    line.color = 0x05E977;
+                    line.alpha = 0.1f;
                     line.pivotX = line.width / 2.0f;
                     line.pivotY = line.height;
-                    line.rotation = seer.rotation;
+                    line.rotation = seer.rotation + rad(i);
                     line.x = seer.x;
                     line.y = seer.y;
                     [self addChild:line];
-                    
-                    SPQuad* hit = [[SPQuad alloc] initWithWidth:target.width height:target.height];
-                    hit.color = 0xFF4500;
-                    hit.alpha = 0.3f;
-                    hit.pivotX = target.pivotX;
-                    hit.pivotY = target.pivotY;
-                    hit.rotation = target.rotation;
-                    hit.x = target.x;
-                    hit.y = target.y;
-                    [self addChild:hit];
-                    
-                    
-                    [self tween:shooter property:@"alpha" value:0.0f duration:2.0f];
-                    [self tween:line property:@"alpha" value:0.0f duration:3.0f];
-                    [self tween:hit property:@"alpha" value:0.0f duration:4.0f];
-                    
+                    [self tween:line property:@"alpha" value:0.0f duration:0.2f];
+
+                    if (CGLineIntersectsRect(sight, target.bounds)) {
+                        SPQuad* line = [[SPQuad alloc] initWithWidth:2.0f height:CGLineDistance(sight)];
+                        line.color = 0x05E9FF;
+                        line.alpha = 0.2f;
+                        line.pivotX = line.width / 2.0f;
+                        line.pivotY = line.height;
+                        line.rotation = seer.rotation + rad(i);
+                        line.x = seer.x;
+                        line.y = seer.y;
+                        [self addChild:line];
+
+                        SPQuad* shooter = [[SPQuad alloc] initWithWidth:target.width height:target.height];
+                        shooter.color = 0xFBEC5D;
+                        shooter.alpha = 0.2f;
+                        shooter.pivotX = seer.pivotX;
+                        shooter.pivotY = seer.pivotY;
+                        shooter.rotation = seer.rotation;
+                        shooter.x = seer.x;
+                        shooter.y = seer.y;
+                        [self addChild:shooter];
+                        
+                        SPQuad* hit = [[SPQuad alloc] initWithWidth:target.width height:target.height];
+                        hit.color = 0xFF4500;
+                        hit.alpha = 0.2f;
+                        hit.pivotX = target.pivotX;
+                        hit.pivotY = target.pivotY;
+                        hit.rotation = target.rotation;
+                        hit.x = target.x;
+                        hit.y = target.y;
+                        [self addChild:hit];
+                        
+                        
+                        [self tween:shooter property:@"alpha" value:0.0f duration:1.0f];
+                        [self tween:line property:@"alpha" value:0.0f duration:1.25f];
+                        [self tween:hit property:@"alpha" value:0.0f duration:1.5f];
+                        
+                    }                    
                 }
             }
-            
         }];
         
     }];
@@ -178,9 +187,9 @@
                 CGFloat tx = LLRand(self.size.width);
                 CGFloat ty = LLRand(self.size.height);
                 CGPoint target = pt(tx, ty);
-                kitten.dynamics.angle.acceleration = 180;
-                kitten.dynamics.position.x.acceleration = LLRand(70);
-                kitten.dynamics.position.y.acceleration = kitten.dynamics.position.x.acceleration;
+                //xxx adjust accel based on x/y where ever this happens
+                kitten.coords.x.acceleration = LLRand(70);
+                kitten.coords.y.acceleration = kitten.coords.x.acceleration;
                 kitten.target = target;
             }
         }];
@@ -188,42 +197,42 @@
     
     
     [self see];
-    
+        
 }
 
-- (void)onTouch:(SPTouchEvent*)event
-{
-    NSArray *touches = [[event touchesWithTarget:self] allObjects];
-    [touches enumerateObjectsUsingBlock:^(SPTouch* touch, NSUInteger idx, BOOL *stop) {
-        SPPoint *current = [SPPoint pointWithX:touch.globalX y:touch.globalY];
-        SPPoint *previous = [SPPoint pointWithX:touch.previousGlobalX y:touch.previousGlobalY];
-        
-        NSString* phase;
-        switch (touch.phase) {
-            case SPTouchPhaseBegan: {
-                phase = @"BEGIN";
-                break;
-            }
-            case SPTouchPhaseMoved:
-                phase = @"MOVE";
-                self.position = pt(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));
-                break;
-            case SPTouchPhaseStationary:
-                phase = @"STILL";
-                break;
-            case SPTouchPhaseEnded: {
-                phase = @"END";
-                break;                
-            }
-            case SPTouchPhaseCancelled:
-                phase = @"CANCEL";
-                break;
-        }
-
-        
-        NSLog(@"Touch %d from (%.1f, %.1f) to (%.1f, %.1f) [%@]", idx, previous.x, previous.y, current.x, current.y, phase);
-    }];    
-}
-
+//- (void)onTouch:(SPTouchEvent*)event
+//{
+//    NSArray *touches = [[event touchesWithTarget:self] allObjects];
+//    [touches enumerateObjectsUsingBlock:^(SPTouch* touch, NSUInteger idx, BOOL *stop) {
+//        SPPoint *current = [SPPoint pointWithX:touch.globalX y:touch.globalY];
+//        SPPoint *previous = [SPPoint pointWithX:touch.previousGlobalX y:touch.previousGlobalY];
+//        
+//        NSString* phase;
+//        switch (touch.phase) {
+//            case SPTouchPhaseBegan: {
+//                phase = @"BEGIN";
+//                break;
+//            }
+//            case SPTouchPhaseMoved:
+//                phase = @"MOVE";
+////                self.position = pt(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));
+//                break;
+//            case SPTouchPhaseStationary:
+//                phase = @"STILL";
+//                break;
+//            case SPTouchPhaseEnded: {
+//                phase = @"END";
+//                break;                
+//            }
+//            case SPTouchPhaseCancelled:
+//                phase = @"CANCEL";
+//                break;
+//        }
+//
+//        
+//        //NSLog(@"Touch %d from (%.1f, %.1f) to (%.1f, %.1f) [%@]", idx, previous.x, previous.y, current.x, current.y, phase);
+//    }];    
+//}
+//
 
 @end

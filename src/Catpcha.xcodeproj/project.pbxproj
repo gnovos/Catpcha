@@ -12,8 +12,8 @@
 		0C6BE4CB1690E65C0022DC00 /* LLColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BE4CA1690E65C0022DC00 /* LLColor.m */; };
 		0C6F740E1697BB5800A468E1 /* LLBasket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F740D1697BB5800A468E1 /* LLBasket.m */; };
 		0C6F74111697BB6800A468E1 /* LLKitten.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F74101697BB6800A468E1 /* LLKitten.m */; };
+		0CAA4FF716ADDE18007F4688 /* LLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA4FF616ADDE18007F4688 /* LLViewController.m */; };
 		0CB17176166699B800EF86BF /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB17175166699B800EF86BF /* GameKit.framework */; };
-		0CE08687167BDC01006340A9 /* LLDynamics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE08686167BDC01006340A9 /* LLDynamics.m */; };
 		0CE0868D167C17A9006340A9 /* LLCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE0868C167C17A9006340A9 /* LLCurve.m */; };
 		0CE08690167C17E6006340A9 /* LLVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE0868F167C17E6006340A9 /* LLVector.m */; };
 		1D3623260D0F684500981E51 /* LLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* LLAppDelegate.m */; };
@@ -32,14 +32,13 @@
 		DE0C7111162417B800357F6E /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0C7110162417B800357F6E /* Icon@2x~ipad.png */; };
 		DE115961162320F100A25086 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DE115960162320F100A25086 /* background.jpg */; };
 		DE115963162320F800A25086 /* background@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DE115962162320F800A25086 /* background@2x.jpg */; };
-		DE1FBDFD14F831A300E86642 /* SPResizeEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1FBDFC14F831A300E86642 /* SPResizeEvent.m */; };
 		DE3F093811B7B9DC009D4DB0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3F093711B7B9DC009D4DB0 /* AVFoundation.framework */; };
 		DE3F093A11B7B9DC009D4DB0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3F093911B7B9DC009D4DB0 /* AudioToolbox.framework */; };
 		DE3F097811B7BABD009D4DB0 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3F097711B7BABD009D4DB0 /* OpenAL.framework */; };
 		DE4A3D7A10FFB08200FDA492 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3D7910FFB08200FDA492 /* OpenGLES.framework */; };
 		DE4A3D7F10FFB08B00FDA492 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3D7E10FFB08B00FDA492 /* QuartzCore.framework */; };
 		DE4A3DB910FFB0FE00FDA492 /* libSparrow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A3DB010FFB0DB00FDA492 /* libSparrow.a */; };
-		DE4F80C714E1481C00655D44 /* LLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4F80C614E1481B00655D44 /* LLViewController.m */; };
+		DE4F80C714E1481C00655D44 /* LLGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4F80C614E1481B00655D44 /* LLGameViewController.m */; };
 		DE4F80D614E153E600655D44 /* LLMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4F80D514E153E600655D44 /* LLMedia.m */; };
 		DE4F80E814E1541400655D44 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = DE4F80DB14E1541400655D44 /* sound.caf */; };
 		DE4F80E914E1541400655D44 /* atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = DE4F80DE14E1541400655D44 /* atlas.png */; };
@@ -86,10 +85,10 @@
 		0C6F740D1697BB5800A468E1 /* LLBasket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLBasket.m; sourceTree = "<group>"; };
 		0C6F740F1697BB6800A468E1 /* LLKitten.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLKitten.h; sourceTree = "<group>"; };
 		0C6F74101697BB6800A468E1 /* LLKitten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLKitten.m; sourceTree = "<group>"; };
+		0CAA4FF516ADDE18007F4688 /* LLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewController.h; sourceTree = "<group>"; };
+		0CAA4FF616ADDE18007F4688 /* LLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewController.m; sourceTree = "<group>"; };
 		0CB171741666996100EF86BF /* LLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLog.h; sourceTree = "<group>"; };
 		0CB17175166699B800EF86BF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		0CE08685167BDC01006340A9 /* LLDynamics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDynamics.h; sourceTree = "<group>"; };
-		0CE08686167BDC01006340A9 /* LLDynamics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDynamics.m; sourceTree = "<group>"; };
 		0CE0868B167C17A9006340A9 /* LLCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLCurve.h; sourceTree = "<group>"; };
 		0CE0868C167C17A9006340A9 /* LLCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLCurve.m; sourceTree = "<group>"; };
 		0CE0868E167C17E6006340A9 /* LLVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLVector.h; sourceTree = "<group>"; };
@@ -116,16 +115,14 @@
 		DE0C7110162417B800357F6E /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x~ipad.png"; sourceTree = "<group>"; };
 		DE115960162320F100A25086 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		DE115962162320F800A25086 /* background@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background@2x.jpg"; sourceTree = "<group>"; };
-		DE1FBDFB14F831A300E86642 /* SPResizeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPResizeEvent.h; sourceTree = "<group>"; };
-		DE1FBDFC14F831A300E86642 /* SPResizeEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPResizeEvent.m; sourceTree = "<group>"; };
 		DE3F093711B7B9DC009D4DB0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DE3F093911B7B9DC009D4DB0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DE3F097711B7BABD009D4DB0 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		DE4A3D7910FFB08200FDA492 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		DE4A3D7E10FFB08B00FDA492 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DE4A3DA210FFB0D400FDA492 /* Sparrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Sparrow.xcodeproj; sourceTree = SPARROW_SRC; };
-		DE4F80C514E1481B00655D44 /* LLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewController.h; sourceTree = "<group>"; };
-		DE4F80C614E1481B00655D44 /* LLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewController.m; sourceTree = "<group>"; };
+		DE4F80C514E1481B00655D44 /* LLGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLGameViewController.h; sourceTree = "<group>"; };
+		DE4F80C614E1481B00655D44 /* LLGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLGameViewController.m; sourceTree = "<group>"; };
 		DE4F80D414E153E600655D44 /* LLMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMedia.h; sourceTree = "<group>"; };
 		DE4F80D514E153E600655D44 /* LLMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMedia.m; sourceTree = "<group>"; };
 		DE4F80DB14E1541400655D44 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
@@ -165,13 +162,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0CAA4FF416ADDDDF007F4688 /* View */,
 				0C041E3116669F3F008E0B33 /* Models */,
-				DECF454314F2E45A006A4287 /* Support */,
 				DE4F80D714E153EA00655D44 /* Game */,
 				1D3623240D0F684500981E51 /* LLAppDelegate.h */,
 				1D3623250D0F684500981E51 /* LLAppDelegate.m */,
-				DE4F80C514E1481B00655D44 /* LLViewController.h */,
-				DE4F80C614E1481B00655D44 /* LLViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -200,11 +195,22 @@
 			name = Objects;
 			sourceTree = "<group>";
 		};
+		0CAA4FF416ADDDDF007F4688 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DECF454614F2E527006A4287 /* SPOverlayView.h */,
+				DECF454714F2E527006A4287 /* SPOverlayView.m */,
+				DE4F80C514E1481B00655D44 /* LLGameViewController.h */,
+				DE4F80C614E1481B00655D44 /* LLGameViewController.m */,
+				0CAA4FF516ADDE18007F4688 /* LLViewController.h */,
+				0CAA4FF616ADDE18007F4688 /* LLViewController.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		0CE0868A167C1785006340A9 /* Dynamics */ = {
 			isa = PBXGroup;
 			children = (
-				0CE08685167BDC01006340A9 /* LLDynamics.h */,
-				0CE08686167BDC01006340A9 /* LLDynamics.m */,
 				0CE0868B167C17A9006340A9 /* LLCurve.h */,
 				0CE0868C167C17A9006340A9 /* LLCurve.m */,
 				0CE0868E167C17E6006340A9 /* LLVector.h */,
@@ -359,17 +365,6 @@
 			path = 2x;
 			sourceTree = "<group>";
 		};
-		DECF454314F2E45A006A4287 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				DECF454614F2E527006A4287 /* SPOverlayView.h */,
-				DECF454714F2E527006A4287 /* SPOverlayView.m */,
-				DE1FBDFB14F831A300E86642 /* SPResizeEvent.h */,
-				DE1FBDFC14F831A300E86642 /* SPResizeEvent.m */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -474,19 +469,18 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* LLAppDelegate.m in Sources */,
-				DE4F80C714E1481C00655D44 /* LLViewController.m in Sources */,
+				DE4F80C714E1481C00655D44 /* LLGameViewController.m in Sources */,
 				DE4F80D614E153E600655D44 /* LLMedia.m in Sources */,
 				DE88295114ECF12000773036 /* LLGame.m in Sources */,
 				DECF454814F2E527006A4287 /* SPOverlayView.m in Sources */,
-				DE1FBDFD14F831A300E86642 /* SPResizeEvent.m in Sources */,
 				0C041E341666BD71008E0B33 /* LLModel.m in Sources */,
 				0C041E371666BD87008E0B33 /* LLevel.m in Sources */,
-				0CE08687167BDC01006340A9 /* LLDynamics.m in Sources */,
 				0CE0868D167C17A9006340A9 /* LLCurve.m in Sources */,
 				0CE08690167C17E6006340A9 /* LLVector.m in Sources */,
 				0C6BE4CB1690E65C0022DC00 /* LLColor.m in Sources */,
 				0C6F740E1697BB5800A468E1 /* LLBasket.m in Sources */,
 				0C6F74111697BB6800A468E1 /* LLKitten.m in Sources */,
+				0CAA4FF716ADDE18007F4688 /* LLViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

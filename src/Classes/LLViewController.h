@@ -1,10 +1,8 @@
-#import "LLGame.h"
+
+#import "LLAppDelegate.h"
 
 @interface LLViewController : UIViewController
-{
-    SPView *mSparrowView;
-}
 
-- (id)initWithSparrowView:(SPView *)sparrowView;
+@property (nonatomic, assign, readonly) LLAppDelegate* app;
 
 @end

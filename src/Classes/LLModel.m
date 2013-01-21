@@ -14,7 +14,14 @@
 
 - (id) init:(CGRect)bounds {
     if (self = [super init]) {
-        _dynamics = [[LLDynamics alloc] init];
+        _degrees = [[LLCurve alloc] init];
+        _coords = [[LLVector alloc] init];
+        _rescale = [[LLVector alloc] init:pt(1.0f, 1.0f)];
+        _chroma = [[LLColor alloc] init];
+
+        self.deg = LL0Deg;
+        _degrees.acceleration = 180.0f;
+        
         _size = bounds.size;
         _center = pt(self.size.width / 2.0f, self.size.height / 2.0f);
         _vision = LLDEFAULT_VISON;
@@ -23,7 +30,7 @@
         self.pivotY = self.center.y;
         self.x = bounds.origin.x;
         self.y = bounds.origin.y;
-        self.dynamics.location = bounds.origin;
+        self.position = bounds.origin;
         
         [self setup];
         [self addEventListener:@selector(onTick:) atObject:self forType:SP_EVENT_TYPE_ENTER_FRAME];
@@ -47,7 +54,6 @@
     [self tween:target property:property value:value duration:time delay:0.0f];
 }
 
-
 - (void) tween:(id)target property:(NSString*)property value:(CGFloat)value duration:(CGFloat)time delay:(CGFloat)delay {
     SPTween *tween = [SPTween tweenWithTarget:target time:time transition:SP_TRANSITION_EASE_IN_OUT];
     [tween setDelay:delay];
@@ -56,21 +62,32 @@
     [self.stage.juggler addObject:tween];
 }
 
-- (CGPoint) position {
-    return pt(self.dynamics.position.x.value, self.dynamics.position.y.value);
-}
+- (CGPoint) position { return _coords.position; }
+- (void) setPosition:(CGPoint)position { _coords.position = position; }
 
-- (void) setPosition:(CGPoint)position {
-    self.dynamics.location = position;
-}
+- (CGPoint) target { return _coords.target; }
+- (void) setTarget:(CGPoint)target { _coords.target = target; }
 
-- (CGPoint) target {
-    return pt(self.dynamics.position.x.target, self.dynamics.position.y.target);
-}
+- (CGFloat) rad { return rad(self.deg); }
+- (void) setRad:(CGFloat)radians { self.deg = deg(radians); }
 
-- (void) setTarget:(CGPoint)position {
-    self.dynamics.target = position;
+- (CGFloat) deg { return self.degrees.value; }
+- (void) setDeg:(CGFloat)degrees { self.degrees.value = degrees; }
+
+- (CGFloat) heading { return self.degrees.target; }
+- (void) setHeading:(CGFloat)degrees { self.degrees.target = degrees; }
+
+- (CGFloat) scale {
+    CGPoint value = _rescale.position;
+    return (value.x + value.y) / 2.0f;
 }
+- (void) setScale:(CGFloat)scale { _rescale.position = pt(scale, scale); }
+
+- (CGFloat) growth {
+    CGPoint value = _rescale.target;
+    return (value.x + value.y) / 2.0f;
+}
+- (void) setGrowth:(CGFloat)growth { _rescale.target = pt(growth, growth); }
 
 - (CGRect) bounds {
     CGPoint pos = self.position;
@@ -80,56 +97,90 @@
 }
 
 - (CGLine) sight {
-    return CGLineCalc(self.position, self.rotation, self.vision);
+    return [self sight:LL0Rad];
+}
+
+- (CGLine) sight:(CGFloat)radians {
+    return linec(self.position, self.rotation + radians, self.vision);
 }
 
 - (void) reflect {
+    LLCurve* x = _coords.x;
+    LLCurve* y = _coords.y;
+    
     if (CGRectGetMinX(self.bounds) < CGRectGetMinX(self.constraints)) {
-        self.dynamics.position.x.adjust += CGRectGetMinX(self.constraints) - CGRectGetMinX(self.bounds);
+        CGFloat dx = CGRectGetMinX(self.constraints) - CGRectGetMinX(self.bounds);
+        [x setValue:(x.value + dx) reset:NO];
     } else if (CGRectGetMaxX(self.bounds) > CGRectGetMaxX(self.constraints)) {
-        self.dynamics.position.x.adjust -= CGRectGetMaxX(self.bounds) - CGRectGetMaxX(self.constraints);
+        CGFloat dx = CGRectGetMaxX(self.bounds) - CGRectGetMaxX(self.constraints);
+        [x setValue:(x.value - dx) reset:NO];
     }
     
     if (CGRectGetMinY(self.bounds) < CGRectGetMinY(self.constraints)) {
-        self.dynamics.position.y.adjust += CGRectGetMinY(self.constraints) - CGRectGetMinY(self.bounds);
+        CGFloat dy = CGRectGetMinY(self.constraints) - CGRectGetMinY(self.bounds);
+        [y setValue:(y.value + dy) reset:NO];
     } else if (CGRectGetMaxY(self.bounds) > CGRectGetMaxY(self.constraints)) {
-        self.dynamics.position.y.adjust -= CGRectGetMaxY(self.bounds) - CGRectGetMaxY(self.constraints);
+        CGFloat dy = CGRectGetMaxY(self.bounds) - CGRectGetMaxY(self.constraints);
+        [y setValue:(y.value - dy) reset:NO];
     }
 }
 
-- (void) onTick:(SPEnterFrameEvent*)event {
-    if (!CGPointEqualToPoint(self.position, self.target)) {
-        CGFloat angle = deg(CGPointAngle(self.position, self.target));
-        CGFloat da = angle - self.dynamics.angle.value;
-        if (ABS(da) > 180) {
-            angle = angle - 360;
-        }
-        
-        //xxx check rotation for spins?
-        self.dynamics.angle.acceleration = 135;
-        self.dynamics.angle.target = angle;
+- (void) tickMove:(double)dt {
+    [_coords tick:dt];
+    
+    if (self.x != self.position.x) {
+        [self tween:@"x" value:self.position.x duration:dt];
     }
     
-    
-    [self.dynamics tick:event.passedTime];
-    
-    [self tween:@"x" value:self.dynamics.position.x.value duration:event.passedTime];
-    [self tween:@"y" value:self.dynamics.position.y.value duration:event.passedTime];
-    [self tween:@"rotation" value:rad(self.dynamics.angle.value) duration:event.passedTime];
-    
-//    self.x = self.dynamics.position.x.value;
-//    self.y = self.dynamics.position.y.value;
-//    self.rotation = rad(self.dynamics.angle.value);
-    
-    //xxx adjust rotation for negativeness?
-    
-    self.scaleX = self.dynamics.scale.x.value;
-    self.scaleY = self.dynamics.scale.y.value;
-    //xxx scale should adjust size, or use some other size thing?
+    if (self.y != self.position.y) {
+        [self tween:@"y" value:self.position.y duration:dt];
+    }
     
     if (!CGRectIsEmpty(self.constraints) && !CGRectContainsRect(self.constraints, self.bounds)) {
         [self reflect];
     }
+}
+
+- (void) tickTurn:(double)dt {
+    if (!CGPointEqualToPoint(self.position, self.target)) {
+        CGFloat degrees = deg(CGPointRads(self.position, self.target));
+        self.heading = degrees;
+        //xxx check for spins
+    }
+    
+    [_degrees tick:dt];
+    
+    if (self.rotation != self.rad) {
+        [self tween:@"rotation" value:self.rad duration:dt];
+    }
+    //xxx adjust rotation for negativeness?
+    //xxx check for spins
+}
+
+- (void) tickGrow:(double)dt {
+    [_rescale tick:dt];
+    
+    if (self.scaleX != self.scale) {
+        [self tween:@"scaleX" value:self.scale duration:dt];
+    }
+    
+    if (self.scaleY != self.scale) {
+        [self tween:@"scaleY" value:self.scale duration:dt];
+    }
+    
+    //xxx scale should adjust size/bounds too?
+}
+
+- (void) onTick:(SPEnterFrameEvent*)event {
+    double dt = event.passedTime;
+    
+    [self tickMove:dt];
+    
+    [self tickTurn:dt];
+        
+    [self tickGrow:dt];
+    
+    [_chroma tick:dt];
 }
 
 - (NSArray*) children {

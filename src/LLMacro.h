@@ -29,9 +29,20 @@
 #define rad(deg) (deg * M_PI / 180.0f)
 #define deg(rad) (rad * 180.0f / M_PI)
 
+static const CGFloat LL0Rad = rad(LL0Deg);
+static const CGFloat LL1Rad = rad(LL1Deg);
+static const CGFloat LL5Rad = rad(LL5Deg);
+static const CGFloat LL15Rad = rad(LL15Deg);
+static const CGFloat LL23Rad = rad(LL23Deg);
+static const CGFloat LL45Rad = rad(LL45Deg);
+static const CGFloat LL90Rad = rad(LL90Deg);
+static const CGFloat LL180Rad = rad(LL180Deg);
+static const CGFloat LL370Rad = rad(LL270Deg);
+static const CGFloat LL360Rad = rad(LL360Deg);
+
 #define M_TAU (2.0f * M_PI)
 
-static inline CGFloat CGPointAngle(CGPoint a, CGPoint b) {
+static inline CGFloat CGPointRads(CGPoint a, CGPoint b) {
     CGFloat dx = a.x - b.x;
     CGFloat dy = a.y - b.y;
     
@@ -41,7 +52,7 @@ static inline CGFloat CGPointAngle(CGPoint a, CGPoint b) {
     
     CGFloat slope = dx / dy;
     
-    return -atanf(slope) + ((a.y < b.y) ? (a.x > b.x ? -rad(180) : rad(180)) : 0);
+    return -atanf(slope) + ((a.y < b.y) ? (a.x > b.x ? -LL180Rad : LL180Rad) : 0);
 }
 
 typedef struct { CGPoint from; CGPoint to; } CGLine;
@@ -49,14 +60,14 @@ typedef struct { CGPoint from; CGPoint to; } CGLine;
 static inline CGLine CGLineMake(CGPoint from, CGPoint to) { return (CGLine){from, to}; }
 #define line(from, to) CGLineMake(from, to)
 
-static inline CGLine CGLineCalc(CGPoint from, CGFloat angle, CGFloat distance) {
-    CGPoint to = pt(cosf(angle - rad(90)) * distance, sinf(angle - rad(90)) * distance);
+static inline CGLine CGLineCalc(CGPoint from, CGFloat radians, CGFloat distance) {
+    CGPoint to = pt(cosf(radians - LL90Rad) * distance, sinf(radians - LL90Rad) * distance);
     to.x += from.x;
     to.y += from.y;
     
     return (CGLine) { from, to };
 }
-#define linec(from, angle, length) CGLineCalc(from, angle, length)
+#define linec(from, radians, length) CGLineCalc(from, radians, length)
 
 static inline CGFloat CGLineSlopeX(CGLine line) { return line.to.x - line.from.x; }
 static inline CGFloat CGLineSlopeY(CGLine line) { return line.to.y - line.from.y; }
@@ -155,6 +166,7 @@ static inline CGRect CGRectEnvelope(CGRect rect, CGPoint point) {
 
 #define LLRand(x) arc4random_uniform(x)
 #define LLRandDeg LLRand(LL360Deg)
+#define LLRandRad LLRand(LL360Rad)
 #define LLRandPercent (LLRand(1000000) / 1000000.0f)
 #define LLRandSign ((LLRand(2) % 2 == 0) ? 1 : -1)
 

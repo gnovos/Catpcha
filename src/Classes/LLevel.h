@@ -13,6 +13,6 @@
 @property (nonatomic, assign, readonly) NSUInteger level;
 @property (nonatomic, strong, readonly) NSMutableArray* objects;
 
-- (id) initLevel:(NSUInteger)level withBounds:(CGRect)bounds;
+- (id) initLevel:(NSUInteger)level withFrame:(CGRect)frame;
 
 @end
