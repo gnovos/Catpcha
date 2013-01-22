@@ -4,6 +4,9 @@
 @implementation LLGameViewController {
     LLGame* game;
     SPView* spview;
+    UIRotationGestureRecognizer* rot;
+    UIPanGestureRecognizer* pan;
+    UIPinchGestureRecognizer* pin;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,12 +44,11 @@
     spview.frameRate = 30; // possible fps: 60, 30, 20, 15, 12, 10, etc.
     spview.stage = game;
     
-    NSArray* recognizers = @[[UIRotationGestureRecognizer class],
-                             [UIPinchGestureRecognizer class],
-                             [UIPanGestureRecognizer class]];
+    rot = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(recognize:)];
+    pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognize:)];
+    pin = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognize:)];
     
-    [recognizers enumerateObjectsUsingBlock:^(Class c, NSUInteger idx, BOOL *stop) {
-        UIGestureRecognizer* recognizer = [[c alloc] initWithTarget:self action:@selector(recognize:)];
+    [@[rot, pan, pin] enumerateObjectsUsingBlock:^(UIGestureRecognizer* recognizer, NSUInteger idx, BOOL *stop) {
         recognizer.delegate = self;
 //        recognizer.cancelsTouchesInView = NO;
 //        recognizer.delaysTouchesEnded = NO;
@@ -62,7 +64,7 @@
 - (BOOL) gestureRecognizer:(UIGestureRecognizer*)a shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer*)b { return YES; }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer*)recognizer shouldReceiveTouch:(UITouch*)touch {
-    if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if (recognizer == pan) {
         CGPoint touched = [touch locationInView:spview];
         SPPoint* point = [SPPoint pointWithX:touched.x y:touched.y];
         return game.level == [game hitTestPoint:point forTouch:YES];
@@ -71,26 +73,23 @@
 }
 
 - (void) recognize:(id)sender {
-    if ([sender isKindOfClass:[UIPanGestureRecognizer class]]) {
-        UIPanGestureRecognizer* recognizer = (UIPanGestureRecognizer*)sender;
-        if (recognizer.state == UIGestureRecognizerStateBegan) {
-            [recognizer setTranslation:game.level.position inView:nil];
+    if (sender == pan) {
+        if (pan.state == UIGestureRecognizerStateBegan) {
+            [pan setTranslation:game.level.position inView:nil];
         } else {
-            CGPoint xlate = [recognizer translationInView:nil];
-            CGPoint velocity = [recognizer velocityInView:nil];
+            CGPoint xlate = [pan translationInView:nil];
+            CGPoint velocity = [pan velocityInView:nil];
             game.level.position = xlate;
         }
                 
-    } else if ([sender isKindOfClass:[UIRotationGestureRecognizer class]]) {
-        UIRotationGestureRecognizer* recognizer = (UIRotationGestureRecognizer*)sender;
-        game.level.rad = recognizer.rotation;
+    } else if (sender == rot) {
+        game.level.rad = rot.rotation;
         
-    } else if ([sender isKindOfClass:[UIPinchGestureRecognizer class]]) {
-        UIPinchGestureRecognizer* recognizer = (UIPinchGestureRecognizer*)sender;        
-        if (recognizer.state == UIGestureRecognizerStateBegan) {
-            recognizer.scale = game.level.scale;
+    } else if (sender == pin) {
+        if (pin.state == UIGestureRecognizerStateBegan) {
+            pin.scale = game.level.scale;
         } else {
-            game.level.scale = MAX(0.4, MIN(recognizer.scale, 3.0f));
+            game.level.scale = MAX(0.4, MIN(pin.scale, 3.0f));
         }
     }
 }
