@@ -15,8 +15,7 @@
 
 - (id) initLevel:(NSUInteger)level withFrame:(CGRect)frame {
     _level = level;
-    if (self = [super init:frame]) {
-        //[self addEventListener:@selector(onTouch:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
+    if (self = [super init:frame touchable:NO]) {
     }
     return self;
 }
@@ -93,6 +92,8 @@
                     [self tween:line property:@"alpha" value:0.0f duration:0.2f];
 
                     if (CGLineIntersectsRect(sight, target.bounds)) {
+                        //xxx collision
+                        
                         SPQuad* line = [[SPQuad alloc] initWithWidth:2.0f height:CGLineDistance(sight)];
                         line.color = 0x05E9FF;
                         line.alpha = 0.2f;
@@ -184,7 +185,7 @@
         [[self models] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             LLKitten* kitten = (LLKitten*)obj;
             
-            if (LLRandPercent < 0.35) {
+            if (!kitten.touch && LLRandPercent < 0.35) {
                 CGFloat tx = LLRand(self.size.width);
                 CGFloat ty = LLRand(self.size.height);
                 CGPoint target = pt(tx, ty);
@@ -200,40 +201,5 @@
     [self see];
         
 }
-
-//- (void)onTouch:(SPTouchEvent*)event
-//{
-//    NSArray *touches = [[event touchesWithTarget:self] allObjects];
-//    [touches enumerateObjectsUsingBlock:^(SPTouch* touch, NSUInteger idx, BOOL *stop) {
-//        SPPoint *current = [SPPoint pointWithX:touch.globalX y:touch.globalY];
-//        SPPoint *previous = [SPPoint pointWithX:touch.previousGlobalX y:touch.previousGlobalY];
-//        
-//        NSString* phase;
-//        switch (touch.phase) {
-//            case SPTouchPhaseBegan: {
-//                phase = @"BEGIN";
-//                break;
-//            }
-//            case SPTouchPhaseMoved:
-//                phase = @"MOVE";
-////                self.position = pt(self.position.x + (current.x - previous.x), self.position.y + (current.y - previous.y));
-//                break;
-//            case SPTouchPhaseStationary:
-//                phase = @"STILL";
-//                break;
-//            case SPTouchPhaseEnded: {
-//                phase = @"END";
-//                break;                
-//            }
-//            case SPTouchPhaseCancelled:
-//                phase = @"CANCEL";
-//                break;
-//        }
-//
-//        
-//        //NSLog(@"Touch %d from (%.1f, %.1f) to (%.1f, %.1f) [%@]", idx, previous.x, previous.y, current.x, current.y, phase);
-//    }];    
-//}
-//
 
 @end

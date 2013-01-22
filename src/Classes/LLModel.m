@@ -10,9 +10,14 @@
 
 #import "LLModel.h"
 
-@implementation LLModel 
+@implementation LLModel
 
-- (id) init:(CGRect)bounds {
+- (id) init:(CGRect)bounds  {
+    return [self init:bounds touchable:YES];
+}
+
+- (id) init:(CGRect)bounds touchable:(BOOL)touchable {
+    
     if (self = [super init]) {
         _degrees = [[LLCurve alloc] init];
         _coords = [[LLVector alloc] init];
@@ -20,7 +25,7 @@
         _chroma = [[LLColor alloc] init];
 
         self.deg = LL0Deg;
-        _degrees.acceleration = 180.0f;
+        _degrees.acceleration = LL180Deg;
         
         _size = bounds.size;
         _center = pt(self.size.width / 2.0f, self.size.height / 2.0f);
@@ -34,8 +39,17 @@
         
         [self setup];
         [self addEventListener:@selector(onTick:) atObject:self forType:SP_EVENT_TYPE_ENTER_FRAME];
+        if (touchable) {
+            [self addEventListener:@selector(onTouch:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
+        }
+
     }
     return self;
+}
+
+- (void) dealloc {
+    [self removeEventListenersAtObject:self forType:SP_EVENT_TYPE_ENTER_FRAME];
+    [self removeEventListenersAtObject:self forType:SP_EVENT_TYPE_TOUCH];
 }
 
 - (void) setup {
@@ -126,7 +140,9 @@
 }
 
 - (void) tickMove:(double)dt {
-    [_coords tick:dt];
+    if (!self.touch) {
+        [_coords tick:dt];        
+    }
     
     if (self.x != self.position.x) {
         [self tween:@"x" value:self.position.x duration:dt];
@@ -212,6 +228,66 @@
         }
     }
     return children;
+}
+
+- (NSArray*) uitouches {
+    NSMutableArray* touches = [[NSMutableArray alloc] init];
+    [self.models enumerateObjectsUsingBlock:^(LLModel* model, NSUInteger idx, BOOL *stop) {
+        if (model.touch) {
+            [touches addObject:model.touch.uiTouch];
+        }
+    }];
+    return touches;
+}
+
+- (void) onTouch:(SPTouchEvent*)event {
+    NSArray *touches = [[event touchesWithTarget:self] allObjects];
+    [touches enumerateObjectsUsingBlock:^(SPTouch* touch, NSUInteger idx, BOOL *stop) {
+        SPPoint *current = [touch locationInSpace:self.parent];
+        SPPoint *previous = [touch previousLocationInSpace:self.parent];
+        
+        NSString* phase;
+        switch (touch.phase) {
+            case SPTouchPhaseBegan: {
+                phase = @"BEGIN";
+                _touch = touch;
+                self.position = pt(current.x, current.y);
+                break;
+            }
+            case SPTouchPhaseMoved:
+                phase = @"MOVE";
+                self.position = pt(current.x, current.y);
+                break;
+            case SPTouchPhaseStationary:
+                phase = @"STILL";
+                break;
+            case SPTouchPhaseEnded: {
+                self.position = pt(current.x, current.y);
+                phase = @"END";
+                _touch = nil;
+                break;
+            }
+            case SPTouchPhaseCancelled:
+                phase = @"CANCEL";
+                _touch = nil;
+                break;
+        }
+        
+        
+        NSLog(@"[%@] Touch %d from (%.1f, %.1f) to (%.1f, %.1f) [%@]",
+              NSStringFromClass(self.class),
+              idx, previous.x, previous.y, current.x, current.y, phase);
+    }];    
+}
+
+- (SPDisplayObject*)hitTestPoint:(SPPoint*)localPoint forTouch:(BOOL)isTouch {
+    SPDisplayObject* hit = [super hitTestPoint:localPoint forTouch:isTouch];
+    
+    if (hit && ![hit isKindOfClass:LLModel.class]) {
+        return self;
+    }
+    
+    return hit;
 }
 
 - (NSString*) description {

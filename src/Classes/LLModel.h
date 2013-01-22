@@ -6,7 +6,6 @@
 //
 //
 
-#import "SPDisplayObject.h"
 #import "LLCurve.h"
 #import "LLVector.h"
 #import "LLColor.h"
@@ -15,6 +14,8 @@
 
 @property (nonatomic, assign, readonly) CGPoint center;
 @property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign, readonly) SPTouch* touch;
+@property (nonatomic, assign, readonly) NSArray* uitouches;
 
 @property (nonatomic, strong, readonly) LLVector* coords;
 @property (nonatomic, strong, readonly) LLCurve* degrees;
@@ -40,6 +41,8 @@
 - (CGLine) sight:(CGFloat)radians;
 
 - (id) init:(CGRect)bounds;
+- (id) init:(CGRect)bounds touchable:(BOOL)touchable;
+
 - (void) setup;
 
 - (void) reclaim:(SPEvent*)event;

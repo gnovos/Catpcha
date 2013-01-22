@@ -48,15 +48,27 @@
     [recognizers enumerateObjectsUsingBlock:^(Class c, NSUInteger idx, BOOL *stop) {
         UIGestureRecognizer* recognizer = [[c alloc] initWithTarget:self action:@selector(recognize:)];
         recognizer.delegate = self;
+//        recognizer.cancelsTouchesInView = NO;
+//        recognizer.delaysTouchesEnded = NO;
+//        recognizer.delaysTouchesBegan = NO;
         [spview addGestureRecognizer:recognizer];
     }];
-    
+        
 }
 
 - (void) onApplicationDidBecomeActive:(NSNotification*)notification { [spview start]; }
 - (void) onApplicationWillResignActive:(NSNotification*)notification { [spview stop]; }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer*)a shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer*)b { return YES; }
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer*)recognizer shouldReceiveTouch:(UITouch*)touch {
+    if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        CGPoint touched = [touch locationInView:spview];
+        SPPoint* point = [SPPoint pointWithX:touched.x y:touched.y];
+        return game.level == [game hitTestPoint:point forTouch:YES];
+    }
+    return YES;
+}
 
 - (void) recognize:(id)sender {
     if ([sender isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -68,7 +80,7 @@
             CGPoint velocity = [recognizer velocityInView:nil];
             game.level.position = xlate;
         }
-        
+                
     } else if ([sender isKindOfClass:[UIRotationGestureRecognizer class]]) {
         UIRotationGestureRecognizer* recognizer = (UIRotationGestureRecognizer*)sender;
         game.level.rad = recognizer.rotation;

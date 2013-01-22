@@ -13,7 +13,7 @@
         [LLMedia initAtlas];      // loads your texture atlas -> see Media.h/Media.m
         [LLMedia initSound];      // loads all your sounds    -> see Media.h/Media.m
 
-        CGRect frame = rect(self.width / 2.0f, self.height / 2.0f, self.width * 1.5f, self.height * 1.5f);
+        CGRect frame = rect(self.width / 2.0f, self.height / 2.0f, self.width * 1.7f, self.height * 1.7f);
         _level = [[LLevel alloc] initLevel:1 withFrame:frame];
         
         [self addChild:_level];
